@@ -1,9 +1,13 @@
 einops==0.8.1
+git+https://github.com/chengtan9907/OpenSTL.git
 h5py==3.10.0
-lightning==2.1.2
-matplotlib==3.10.0
+jupyter
+lightning==2.2.1
+matplotlib==3.9.0
 numpy==1.24.4
-OpenSTL.egg==info
 scikit_learn==1.3.2
 seaborn==0.13.2
-torch==2.1.1+cu118
+tensorboard
+torch==2.1.1
+torchvision==0.16.1
+torchaudio==2.1.1
