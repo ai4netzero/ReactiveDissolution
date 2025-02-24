@@ -147,39 +147,3 @@ def plot_features(images, title=None, cols=3, save_as=None):
 
     plt.show()
     
-
-def plot_corrcoef(results_dict, n_files, mode="train", timesteps=100,
-                  skip=1, save_files=False):
-    preds_key = f"preds_{mode}"
-    masks_key = f"masks_{mode}"
-
-    if mode == "train":
-        mode = 'Training'
-    elif mode == "val":
-        mode = 'Validation'
-
-    for file in range(n_files):
-        plt.figure(figsize=(8, 6))
-        
-        for key in results_dict:    
-            preds = results_dict[key][preds_key]
-            masks = results_dict[key][masks_key]
-        
-            min_r = file * timesteps
-            max_r = min_r + timesteps
-            
-            scores = [np.corrcoef(masks[i], preds[i])[0, 1]
-                      for i in range(min_r, max_r, skip)]           
-            sns.lineplot(
-                x=np.arange(0, timesteps, skip),
-                y=np.clip(scores, -1, 1),
-                label=key)
-            
-        plt.title(f"$R^2$-Scores for {mode} Model {file + 1} (Pe = 1 | K = 1)")
-        plt.legend()
-        plt.tight_layout()
-
-        if save_files:
-            plt.savefig(f"r2_scores_{mode.lower()}_model_{file + 1}.png")
-
-        plt.show()
