@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from models.base_model import Base_Model
+from models._base_model import Base_Model
 
 import operator
 from functools import reduce

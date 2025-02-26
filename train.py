@@ -1,18 +1,15 @@
 import argparse
 import lightning as L
 
-from lightning.pytorch.callbacks import ModelCheckpoint, EarlyStopping
-from lightning.pytorch.loggers import TensorBoardLogger
 from functools import partial
-
-from data_loader import *
-from preprocessing import *
 from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader
 from torch.multiprocessing import set_sharing_strategy
 
 from config import *
 from utils import *
+from data_loader import *
+from preprocessing import *
 
 def main(args):
     TRAIN_FILES = args.train_files
@@ -66,29 +63,10 @@ def main(args):
 
     delete_arrays([data_list_train, data_list_val])
     
-    output_scaler_list = estimate_output_scalers(dataset_train.Y, scaler_type='minmax')
+    output_scaler_list = estimate_output_scalers(
+        dataset_train.Y, scaler_type='minmax')
     scale_outputs(dataset_train, output_scaler_list)
     scale_outputs(dataset_val, output_scaler_list)
-    
-    ckpt_file = args.ckpt_file + '_{epoch:02d}'
-    monitored_loss = "Validation Loss" # For all callbacks
-
-    ckpt_params = {
-        'monitor': monitored_loss,
-        'filename': ckpt_file,
-        'save_top_k': 3,
-        'every_n_epochs': 1,
-    }
-
-    early_stop_params = {
-        'monitor': monitored_loss,
-        'patience': 20,
-        'verbose': False,
-        'mode': 'min',
-    }
-
-    ckpt_callback = ModelCheckpoint(**ckpt_params)
-    early_stop_callback = EarlyStopping(**early_stop_params)
 
     if args.extra_features:
         in_channels = 7
@@ -98,21 +76,7 @@ def main(args):
     model_params, model_obj = set_model_params(
         args, in_channels=in_channels, out_channels=len(outputs))
 
-    logger = TensorBoardLogger(
-        save_dir="tb_logs",
-        name=os.path.join(
-            args.model_name, f"level_{len(args.model_list)}"),
-    )
-
-    trainer_params = {
-        "max_epochs": args.epochs,
-        "devices": [args.gpu] if torch.cuda.is_available() else 0,
-        "enable_progress_bar": True,
-        "deterministic": True,
-        "callbacks": [ckpt_callback, early_stop_callback],
-        "check_val_every_n_epoch": 1,
-        "logger": logger,
-    }
+    trainer_params = set_trainer_params(args)
 
     if len(args.model_list) > 0:
         device = f"cuda:{args.gpu}" if torch.cuda.is_available() else "cpu"
@@ -167,7 +131,7 @@ if __name__ == "__main__":
     gpu_ids = list(range(torch.cuda.device_count())) if torch.cuda.is_available() else [0]
 
     parser.add_argument("--model_name", type=str, choices=['convlstm', 'tau', 'ufno'])
-    parser.add_argument("--dataset_path", type=str, default="../reactflow/256modelruns")    
+    parser.add_argument("--dataset_path", type=str, default="./256modelruns")    
     parser.add_argument("--gpu", type=int, default=0, choices=gpu_ids)
     parser.add_argument("--train_files", type=int, default=24)
     parser.add_argument("--val_files", type=int, default=8)
@@ -178,7 +142,7 @@ if __name__ == "__main__":
     parser.add_argument("--in_steps", type=int, default=5)
     parser.add_argument("--out_steps", type=int, default=5)
     parser.add_argument("--extra_features", action="store_true", default=True)
-    parser.add_argument("--ckpt_file", type=str, default='checkpoint')
+    parser.add_argument("--ckpt_prefix", type=str, default='checkpoint')
     parser.add_argument("--epochs", type=int, default=100)
     parser.add_argument("--lr", type=float, default=5e-4)
     parser.add_argument("--model_list", type=str, nargs='+', default=[],

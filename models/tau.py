@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from models.base_model import Base_Model
+from models._base_model import Base_Model
 from einops import rearrange
 
 # OpenSTL Imports for Temporal Attention Unit (TAU) Model
