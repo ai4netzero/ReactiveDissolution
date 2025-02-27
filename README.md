@@ -39,7 +39,10 @@ Originally, our dataset considers input state maps $(H_{in}, W_{in}) = (256, 256
 
 ## Training
 
-The general settings to train a deep learning model can be found at the main function in the [train.py](train.py) script. The specific parameters for each model can be configured in the [config.py](config.py) script. If one wants to implement a new model (_Hint_: use the Base_Model class from [models/base_model.py](models/base_model.py)), they should also include an option to that model in the "--model_name" option, as well as the constructor parameters in [config.py](config.py).
+The general settings to train a deep learning model can be found at the main function in the [train.py](train.py) script. The specific parameters for each model can be configured in the [config.py](config.py) script. If one wants to implement a new model, they should also include an option to that model in the "--model_name" option, as well as the constructor parameters in [config.py](config.py).
+
+> [!TIP]
+> When implementing your class for a new deep learning algorithm, you can use the Base_Model class from [models/_base_model.py](models/_base_model.py)), which implements all methods for training, validation and test steps.
 
 Example command for training a model (Level 0 Prediction) with the full dataset:
 
@@ -64,9 +67,10 @@ python train.py --model_name tau --dataset_path <path/to/your/dataset> --ckpt_pr
 > [!IMPORTANT]
 > Make sure that the general settings and the model parameters are exactly the same for all levels.
 
+
 ## Evaluation & Visualization
 
-TBD
+After you train your deep learning model, along with all levels for the iterative stacking strategy, the results can be visualized on [this Jupyter notebook](view_results.ipynb).
 
 ## Acknowledgements
 

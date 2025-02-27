@@ -1,6 +1,7 @@
 # Folders
 
 __pycache__/
+.ipynb_checkpoints/
 tb_logs/
 preds/
 pretrained_models/
