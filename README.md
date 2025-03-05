@@ -20,6 +20,32 @@ This repository contains a PyTorch (Lightning) implementation of three different
 
 Please refer to [requirements.txt](requirements.txt) for more details.
 
+## How to Install
+
+1. Open a terminal and clone this repository into your local folder:
+
+```
+git clone https://github.com/marcosvcirne/ReactiveDissolution.git
+```
+
+2. Download and install [Conda](https://anaconda.org/anaconda/conda) (or [Miniconda](https://docs.anaconda.com/miniconda)) for your operational system.
+
+3. Create a new Conda environment with basic dependencies:
+
+```
+conda create --name myenv python=3.9 pip
+```
+
+4. Activate your environment:
+```
+conda activate myenv
+```
+
+5. Install the Python dependencies from the [requirements.txt](requirements.txt) file:
+```
+pip install -r requirements.txt
+```
+
 ## Overview
 
 Given the numbers of input time steps $T_{in}$ and output time steps $T_{out}$, this code trains a deep learning model which receives a sequence of dissolution states of shape $(T_{in}, C_{in}, H_{in}, W_{in})$ and outputs a sequence of forecasted states of shape $(T_{out}, C_{out}, H_{out}, W_{out})$. In essence, the properties comprised by the input features $C_{in}$ and the output features $C_{out}$ are defined as follows:
@@ -72,6 +98,8 @@ python train.py --model_name tau --dataset_path <path/to/your/dataset> --ckpt_pr
 
 After you train your deep learning model, along with all levels for the iterative stacking strategy, the results can be visualized on [this Jupyter notebook](view_results.ipynb).
 
+Alternatively, you can run the notebook using the pre-trained models avaiable in this repository.
+
 ## Acknowledgements
 
 This work is funded by the Engineering and Physical Sciences Research Council's ECO-AI Project grant (reference number EP/Y006143/1), with additional financial support from the PETRONAS Centre of Excellence in Subsurface Engineering and Energy Transition (PACESET).
@@ -79,3 +107,4 @@ This work is funded by the Engineering and Physical Sciences Research Council's 
 ## Citation
 
 TBD
+
