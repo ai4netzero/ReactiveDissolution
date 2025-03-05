@@ -70,7 +70,7 @@ The general settings to train a deep learning model can be found at the main fun
 > [!TIP]
 > When implementing your class for a new deep learning algorithm, you can use the Base_Model class from [models/_base_model.py](models/_base_model.py)), which implements all methods for training, validation and test steps.
 
-Example command for training a model (Level 0 Prediction) with the full dataset:
+Example command for training a model (Level 0 Prediction) with the full dataset and saving the output to a .log file:
 
 ```
 python train.py --model_name tau --dataset_path <path/to/your/dataset> --ckpt_prefix tau_level_0 > train_level_0.log
@@ -90,15 +90,16 @@ Same rationale for Level 2:
 python train.py --model_name tau --dataset_path <path/to/your/dataset> --ckpt_prefix tau_level_2 --model_list <path/to/level/0> <path/to/level/1> > train_level_2.log
 ```
 
+By default, the extra input features are always included. If one wants to disable them, just add the option "--extra-features False" to the command line
+
 > [!IMPORTANT]
 > Make sure that the general settings and the model parameters are exactly the same for all levels.
-
 
 ## Evaluation & Visualization
 
 After you train your deep learning model, along with all levels for the iterative stacking strategy, the results can be visualized on [this Jupyter notebook](view_results.ipynb).
 
-Alternatively, you can run the notebook using the pre-trained models avaiable in this repository.
+Alternatively, you can run the notebook using the [pre-trained models](pretrained_models) avaiable in this repository.
 
 ## Acknowledgements
 
