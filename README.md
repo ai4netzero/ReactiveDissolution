@@ -90,7 +90,7 @@ Same rationale for Level 2:
 python train.py --model_name tau --dataset_path <path/to/your/dataset> --ckpt_prefix tau_level_2 --model_list <path/to/level/0> <path/to/level/1> > train_level_2.log
 ```
 
-By default, the extra input features are always included. If one wants to disable them, just add the option "--extra-features False" to the command line
+By default, the extra input features are always included. If one wants to disable them, just add the option ```--extra-features False``` to the command line
 
 > [!IMPORTANT]
 > Make sure that the general settings and the model parameters are exactly the same for all levels.
